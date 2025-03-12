@@ -1,7 +1,0 @@
-<form id="file-upload-form">
-  <input (change)="fileSelectHandler($event)" id="file-upload" type="file" name="fileUpload" accept="image/*" />
-
-  <label #dropzone for="file-upload" id="dropzone" (dragover)="dropzoneHover($event)" (dragleave)="dropzoneHover($event)" (drop)="fileSelectHandler($event)" class="dropzone d-flex flex-column justify-content-center align-items-center">
-    <span class="dropzone__text text-center p-3" i18n="@@document-manager.dropzone.text">Drag a document into this area to upload it.</span>
-  </label>
-</form>

@@ -1,28 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import { NgbPagination, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
-import { DocumentListItemComponent } from './document-list-item/document-list-item.component';
-import { DocumentManagerDropzoneComponent } from './document-manager-dropzone/document-manager-dropzone.component';
-import { DynamicDocumentManagerStore } from './dynamic-document-manager.store';
-import { DocumentUploadFilesBtnComponent } from './document-upload-files-btn/document-upload-files-btn.component';
-import { FileMetadata } from '@scs/api';
-import { NgClass } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { DocumentPdfViewerComponent } from './document-pdf-viewer/document-pdf-viewer.component';
+import { ChangeDetectionStrategy, Component, inject, input } from "@angular/core";
+import { NgbPagination, NgbProgressbarModule } from "@ng-bootstrap/ng-bootstrap";
+import { DocumentListItemComponent } from "./document-list-item/document-list-item.component";
+import { DynamicDocumentManagerStore } from "./dynamic-document-manager.store";
+import { NgClass } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 @Component({
-  selector: 'scs-dynamic-document-manager',
-  imports: [
-    NgbPagination,
-    DocumentListItemComponent,
-    DocumentManagerDropzoneComponent,
-    DocumentUploadFilesBtnComponent,
-    NgClass,
-    FormsModule,
-    DocumentPdfViewerComponent,
-    NgbProgressbarModule,
-  ],
-  templateUrl: './dynamic-document-manager.component.html',
-  styleUrl: './dynamic-document-manager.component.scss',
+  selector: "scs-dynamic-document-manager",
+  imports: [NgbPagination, DocumentListItemComponent, NgClass, FormsModule, NgbProgressbarModule],
+  templateUrl: "./dynamic-document-manager.component.html",
+  styleUrl: "./dynamic-document-manager.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DynamicDocumentManagerStore],
 })
@@ -34,14 +21,11 @@ export class DynamicDocumentManagerComponent {
 
   protected readonly documents = this.#store.documentsResource;
   protected readonly isLoading = this.#store.isLoading;
-  protected readonly collectionSize = this.#store.totalCount;
   protected readonly pageSize = this.#store.limit;
   protected readonly page = this.#store.page;
   protected readonly selectedPdfToRead = this.#store.selectedPdfToRead;
-  protected readonly token = this.#store.tokenResource.value;
   protected readonly progressPercent = this.#store.progressPercent;
   protected readonly uploadInProgress = this.#store.uploadInProgress;
-  protected readonly readonly = this.#store.readonly;
 
   constructor() {
     this.#store.updateEntityId(this.entityId);
@@ -52,35 +36,27 @@ export class DynamicDocumentManagerComponent {
     this.#store.loadDocuments();
   }
 
-  protected uploadFile(file: File): void {
-    this.#store.uploadFile(file);
-  }
-
-  protected cancelUpload(): void {
-    this.#store.cancelUpload();
-  }
-
   protected updateFile(fileUuid: string, newFile: File): void {
+    console.log("~~~~~~~~~~  updateFile  ~~~~~~~~~~");
+    console.log("fileUuid", fileUuid, "newFile", newFile);
+    console.log("WELCOME TO THE PROBLEM... compare the fileUuid that you expected with the one that you've got...");
     this.#store.updateFile({ fileUuid, newFile });
   }
 
   protected deleteFile(fileUuid: string): void {
+    console.log("~~~~~~~~~~  deleteFile  ~~~~~~~~~~");
+    console.log("fileUuid", fileUuid);
+    console.log("However, here the problem doesn't occur, because you get your expected fileUuid...");
     this.#store.deleteFile(fileUuid);
   }
 
-  protected updateMetadata(fileUuid: string, metadata: Pick<FileMetadata, 'name' | 'description' | 'fileType'>): void {
+  protected updateMetadata(
+    fileUuid: string,
+    metadata: any /*Pick<FileMetadata, "name" | "description" | "fileType">*/
+  ): void {
+    console.log("~~~~~~~~~~  updateMetadata  ~~~~~~~~~~");
+    console.log("fileUuid", fileUuid, "metadata", metadata);
+    console.log("However, here the problem doesn't occur, because you get your expected fileUuid...");
     this.#store.updateMetadata({ fileUuid, metadata });
-  }
-
-  protected setPage(page: number): void {
-    this.#store.patchState({ page });
-  }
-
-  protected setPageSize(pageSize: number): void {
-    this.#store.patchState({ limit: pageSize });
-  }
-
-  protected setSelectedPdfToRead(selectedPdfToRead: FileMetadata | null): void {
-    this.#store.patchState({ selectedPdfToRead });
   }
 }
