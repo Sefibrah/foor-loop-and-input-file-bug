@@ -1,0 +1,58 @@
+<div class="d-flex flex-column">
+  @if (!readonly) {
+    <scs-document-manager-dropzone (file)="uploadFile($event)" />
+  }
+  <section class="d-flex flex-column gap-3">
+    @if (uploadInProgress()) {
+      <div class="mt-2 w-100 d-flex justify-content-between align-items-center">
+        <ngb-progressbar class="w-98" type="primary" [value]="progressPercent() ?? 0" [showValue]="true" [striped]="true" [animated]="true" />
+        <span class="w-1 pointer d-flex justify-content-center align-items-center" (click)="cancelUpload()">
+          <i class="material-icons md-16 text-danger">cancel</i>
+        </span>
+      </div>
+    }
+    <section [ngClass]="{ disabled: isLoading() }">
+      @for (document of documents.value(); track $index) {
+        <scs-document-list-item
+          (openPdf)="setSelectedPdfToRead($event)"
+          [attr.data-test-value]="document.uuId"
+          [document]="document"
+          [token]="token()"
+          (delete)="deleteFile(document.uuId)"
+          (updateFile)="updateFile(document.uuId, $event)"
+          (updateMetadata)="updateMetadata(document.uuId, $event)"
+          [readonly]="readonly"
+        />
+      } @empty {
+        @if (!documents.isLoading()) {
+          <span class="w-100 d-flex justify-content-center align-items-center text-center" i18n="@@document-manager.no-documents">
+            No documents on this entity are attached! Try using the button or drop items inside of the window itself to start the upload process.
+          </span>
+        }
+      }
+    </section>
+    <div class="row align-items-center justify-content-center">
+      <div class="col">
+        @if (!readonly) {
+          <scs-document-upload-files-btn (file)="uploadFile($event)" [ngClass]="{ disabled: isLoading() }" />
+        }
+      </div>
+      <div class="col d-flex justify-content-center align-items-center">
+        @if (collectionSize() > 0) {
+          <ngb-pagination class="m0-pagination" [ngClass]="{ disabled: isLoading() }" [page]="page()" (pageChange)="setPage($event)" [collectionSize]="collectionSize() ?? 0" [pageSize]="pageSize()" [rotate]="true" />
+        }
+      </div>
+      <div class="col d-flex justify-content-end gap-2">
+        <select class="form-select footer-action" data-test-name="items-per-page" [ngClass]="{ disabled: isLoading() }" [ngModel]="pageSize()" (ngModelChange)="setPageSize($event)" [ngModelOptions]="{ standalone: true }">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="25">25</option>
+          <option [value]="50">50</option>
+          <option [value]="100">100</option>
+        </select>
+        <button class="primary-action pointer bordered-icon" data-test-id="document-upload-refresh-btn" (click)="loadDocuments()" [ngClass]="{ disabled: isLoading() }"><span class="material-symbols-outlined"> autorenew</span></button>
+      </div>
+    </div>
+  </section>
+</div>
+<scs-document-pdf-viewer [token]="token()" [selectedPdfToRead]="selectedPdfToRead()" (selectedPdfToReadChange)="setSelectedPdfToRead($event)" />

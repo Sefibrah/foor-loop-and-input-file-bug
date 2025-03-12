@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-between align-items-center border-bottom py-2 document-item" [ngClass]="{ pointer: document().fileType === 'pdf' }" (click)="onDocumentClicked($event)">
+  <form class="d-flex align-items-center gap-3 flex-grow-1" [formGroup]="form">
+    <a [href]="fullFileUrl()" download class="btn icon-btn p-0 focus-ring">
+      <i class="bi bi-{{ fileTypeBootstrapIconIdentifier() }} display-5 mb-0 pointer" [attr.data-test-name]="fileTypeBootstrapIconIdentifier()"></i>
+    </a>
+    <div class="d-flex flex-column gap-1 w-100">
+      <div class="d-flex align-items-center gap-2">
+        <div class="resize-container">
+          <span #dynamicResizeText class="resize-text" aria-hidden="true"></span>
+          <input #nameInput [readonly]="readonly()" [ngClass]="{ 'pe-none': readonly() }" formControlName="name" data-test-name="file-name" placeholder="..." class="resize-input" (blur)="updateFileMetadata()" />
+        </div>
+        <span class="badge text-bg-secondary" data-test-name="file-extension">.{{ document().fileType }}</span>
+        <span class="text-body-secondary text-" data-test-name="file-last-updated"><ng-container i18n="@@document-manager.list-item.no-documents">Last updated</ng-container>: {{ document().lastModifiedTime | date: "dd.MM.yyyy" }}</span>
+      </div>
+      @if (!readonly()) {
+        <textarea
+          formControlName="description"
+          [readonly]="readonly()"
+          [ngClass]="{ 'pe-none': readonly() }"
+          class="description-control"
+          data-test-name="file-description"
+          placeholder="Add description..."
+          i18n-placeholder="@@document-manager.list-item.add-description"
+          (blur)="updateFileMetadata()"
+        ></textarea>
+      }
+    </div>
+  </form>
+  <div class="dropdown" #dropdown>
+    <button class="btn dropdown-toggle focus-ring" type="button" data-bs-toggle="dropdown" data-test-name="file-actions-dropdown" aria-expanded="false">
+      <i class="bi bi-three-dots-vertical fs-3 pointer pe-none"></i>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li>
+        <a [href]="fullFileUrl()" download class="btn dropdown-item d-flex align-items-center gap-2" data-test-name="file-download">
+          <span class="material-symbols-outlined text-primary"> cloud_download </span><ng-container i18n="@@document-manager.list-item.download">Download</ng-container>
+        </a>
+      </li>
+      @if (!readonly()) {
+        <li>
+          <button class="dropdown-item d-flex align-items-center gap-2" type="button" data-test-name="file-rename" (click)="focus()">
+            <span class="material-symbols-outlined text-primary"> edit </span><ng-container i18n="@@document-manager.list-item.rename">Rename file</ng-container>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item-button" data-test-name="file-replace" (click)="nameInput.focus()">
+            <label for="update-file" class="dropdown-item d-flex align-items-center gap-2 pointer">
+              <span for="update-file" class="material-symbols-outlined text-success"> cloud_upload </span>
+              <ng-container i18n="@@document-manager.list-item.replace-file">Replace file</ng-container>
+            </label>
+          </button>
+          <input type="file" multiple="false" id="update-file" style="display: none" (change)="fileSelectHandler($event)" />
+        </li>
+        <li>
+          <button class="dropdown-item d-flex align-items-center gap-2" type="button" data-test-name="file-delete" (click)="onDeleteFile()">
+            <span class="material-symbols-outlined text-danger"> delete </span><ng-container i18n="@@document-manager.list-item.delete-file">Delete</ng-container>
+          </button>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

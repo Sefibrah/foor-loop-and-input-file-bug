@@ -1,0 +1,76 @@
+@import "bootstrap/scss/functions.scss";
+@import "bootstrap/scss/variables.scss";
+
+:host {
+  display: block;
+}
+
+.document-item:hover {
+  background: $gray-100;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.description-control {
+  padding-left: 0;
+  resize: none;
+  field-sizing: content;
+  border: 0;
+  background: transparent;
+  width: 70%;
+}
+
+.description-control:hover,
+.description-control:focus {
+  background: $gray-300;
+}
+
+.dropdown-item-button{
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+/** Dynamic Resizing Input START */
+.resize-container {
+  display: inline-block;
+  position: relative;
+}
+
+.resize-input,
+.resize-text {
+  margin: 0;
+  border: 0;
+  background: transparent;
+}
+
+.resize-text {
+  padding-right: 5px;
+  min-width: 20px;
+  display: inline-block;
+  visibility: hidden;
+  white-space: pre;
+}
+
+.resize-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.resize-input:hover,
+.resize-input:focus {
+  background: $gray-300;
+}
+
+/** Dynamic Resizing Input END */
+
+.icon-btn:hover{
+  color: rgba(var(--bs-primary-rgb), 1) !important;
+}

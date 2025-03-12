@@ -1,0 +1,47 @@
+:host {
+  display: block;
+}
+
+.bordered-icon {
+  border: 1px solid;
+  border-radius: 2px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 0.9em;
+  padding: 4px 7px;
+  background: transparent;
+}
+
+.m0-pagination ::ng-deep {
+  ul.pagination {
+    margin: 0;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.footer-action.form-select {
+  padding: 4px 35px 4px 10px;
+  border: 1px solid black;
+  border-radius: 2px;
+  width: fit-content;
+}
+
+.footer-action.bordered-icon {
+  display: grid;
+  place-items: center;
+}
+
+dialog {
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+  border-radius: 10px;
+}
+
+.w-98 {
+  width: 98% !important;
+}
