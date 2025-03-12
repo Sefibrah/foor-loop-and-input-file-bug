@@ -4,7 +4,6 @@
   (click)="onDocumentClicked($event)"
 >
   <form class="d-flex align-items-center gap-3 flex-grow-1" [formGroup]="form">
-    <!-- [href]="fullFileUrl()" -->
     <a download class="btn icon-btn p-0 focus-ring">
       <i
         class="bi bi-{{ fileTypeBootstrapIconIdentifier() }} display-5 mb-0 pointer"
@@ -15,9 +14,6 @@
       <div class="d-flex align-items-center gap-2">
         <div class="resize-container">
           <span #dynamicResizeText class="resize-text" aria-hidden="true"></span>
-          <!-- 
-            [ngClass]="{ 'pe-none': readonly() }"
-            [readonly]="readonly()" -->
           <input
             #nameInput
             formControlName="name"
@@ -33,9 +29,6 @@
           {{ document().lastModifiedTime | date : "dd.MM.yyyy" }}</span
         >
       </div>
-      <!-- @if (!readonly()) { -->
-      <!-- [ngClass]="{ 'pe-none': readonly() }" 
-        [readonly]="readonly()"-->
       <textarea
         formControlName="description"
         class="description-control"
@@ -44,7 +37,6 @@
         i18n-placeholder="@@document-manager.list-item.add-description"
         (blur)="updateFileMetadata()"
       ></textarea>
-      <!-- } -->
     </div>
   </form>
   <div class="dropdown" #dropdown>
@@ -58,12 +50,6 @@
       <i class="bi bi-three-dots-vertical fs-3 pointer pe-none"></i>
     </button>
     <ul class="dropdown-menu dropdown-menu-end">
-      <!-- <li>
-        <a [href]="fullFileUrl()" download class="btn dropdown-item d-flex align-items-center gap-2" data-test-name="file-download">
-          <span class="material-symbols-outlined text-primary"> cloud_download </span><ng-container i18n="@@document-manager.list-item.download">Download</ng-container>
-        </a>
-      </li> -->
-      <!-- @if (!readonly()) { -->
       <li>
         <button
           class="dropdown-item d-flex align-items-center gap-2"
@@ -72,14 +58,14 @@
           (click)="focus()"
         >
           <span class="material-symbols-outlined text-primary"> edit </span
-          ><ng-container i18n="@@document-manager.list-item.rename">Rename file</ng-container>
+          ><ng-container>Rename file (returns appropriate fileUuId, but onblur)</ng-container>
         </button>
       </li>
       <li>
         <button type="button" class="dropdown-item-button" data-test-name="file-replace" (click)="nameInput.focus()">
           <label for="update-file" class="dropdown-item d-flex align-items-center gap-2 pointer">
             <span for="update-file" class="material-symbols-outlined text-success"> cloud_upload </span>
-            <ng-container i18n="@@document-manager.list-item.replace-file">Replace file</ng-container>
+            <ng-container>Replace file (DOESN'T return appropriate fileUuId)</ng-container>
           </label>
         </button>
         <input type="file" multiple="false" id="update-file" style="display: none" (change)="fileSelectHandler($event)" />
@@ -92,10 +78,9 @@
           (click)="onDeleteFile()"
         >
           <span class="material-symbols-outlined text-danger"> delete </span
-          ><ng-container i18n="@@document-manager.list-item.delete-file">Delete</ng-container>
+          ><ng-container>Delete (returns appropriate fileUuId)</ng-container>
         </button>
       </li>
-      <!-- } -->
     </ul>
   </div>
 </div>

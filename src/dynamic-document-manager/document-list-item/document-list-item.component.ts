@@ -71,17 +71,6 @@ export class DocumentListItemComponent implements OnDestroy {
         return "file-earmark";
     }
   });
-  // protected readonly fullFileUrl = computed(
-  //   () =>
-  //     new URL(
-  //       this.document().fileUrl.replace("https://api.scs-luettgen.com", "") +
-  //         "?apiKey=" +
-  //         this.token() +
-  //         "&filename=" +
-  //         this.document().preferredFileName,
-  //       location.origin
-  //     )
-  // );
 
   public readonly delete = output<void>();
   public readonly updateMetadata = output<any /*Pick<FileMetadata, 'name' | 'description' | 'fileType'>*/>();
